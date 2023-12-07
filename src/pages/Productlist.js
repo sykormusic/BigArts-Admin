@@ -76,20 +76,28 @@ const Productlist = () => {
       color: productState[i].color,
       price: `${productState[i].price}`,
       action: (
-        <>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 4,
+          }}
+        >
           <Link
             to={`/admin/product/${productState[i]._id}`}
+            style={{ cursor: "pointer" }}
             className=" fs-3 text-danger"
           >
             <BiEdit />
           </Link>
           <div
-            className="ms-3 fs-3 text-danger"
+            className="ms-3 fs-3 text-danger "
+            style={{ cursor: "pointer" }}
             onClick={() => setDeleteModal(productState[i]._id)}
           >
             <AiFillDelete />
           </div>
-        </>
+        </div>
       ),
     });
   }
