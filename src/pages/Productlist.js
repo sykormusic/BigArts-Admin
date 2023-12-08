@@ -53,7 +53,7 @@ const Productlist = () => {
 
   const onDelete = async () => {
     const res = await dispatch(deleteProduct(deleteModal));
-    if (res) {
+    if (res?.payload?._id) {
       toast.success("Product Deleted Successfully");
       onGetData();
       setDeleteModal("");
@@ -65,6 +65,7 @@ const Productlist = () => {
   }, []);
 
   const productState = useSelector((state) => state.product.products);
+
   const data1 = [];
 
   for (let i = 0; i < productState.length; i++) {

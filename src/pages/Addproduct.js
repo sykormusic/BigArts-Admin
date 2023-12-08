@@ -80,10 +80,12 @@ const Addproduct = () => {
           form={form}
           onFinish={async (values) => {
             const res = productId
-              ? await dispatch(updateProduct({ id: productId, ...values }))
+              ? await dispatch(
+                  updateProduct({ id: productId, ...values, images: images })
+                )
               : await dispatch(createProducts({ ...values, images: images }));
 
-            if (res.payload) {
+            if (res.payload?._id) {
               toast.success(
                 productId
                   ? "Product Updated Successfullly!"
@@ -94,13 +96,11 @@ const Addproduct = () => {
               setImages([]);
               dispatch(clearAllImages());
 
-              setTimeout(() => {
-                dispatch(resetState());
-              }, 3000);
+              dispatch(resetState());
 
-              if (productId) {
+              setTimeout(() => {
                 navigate("/admin/list-product");
-              }
+              }, 1000);
             }
           }}
         >
