@@ -41,10 +41,12 @@ const Addblog = () => {
     blogImages,
     updatedBlog,
   } = blogState;
+
+  const [images, setImages] = useState([]);
+
   useEffect(() => {
     if (getBlogId !== undefined) {
       dispatch(getABlog(getBlogId));
-      img.push(blogImages);
     } else {
       dispatch(resetState());
     }
@@ -68,17 +70,15 @@ const Addblog = () => {
     }
   }, [isSuccess, isError, isLoading]);
 
-  const img = [];
-  imgState.forEach((i) => {
-    img.push({
-      public_id: i.public_id,
-      url: i.url,
-    });
-  });
-  console.log(img);
   useEffect(() => {
-    formik.values.images = img;
-  }, [blogImages]);
+    formik.values.images = imgState;
+    setImages(imgState);
+  }, [JSON.stringify(imgState)]);
+
+  useEffect(() => {
+    formik.values.images = blogImages;
+    setImages(blogImages);
+  }, [JSON.stringify(blogImages)]);
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -86,7 +86,7 @@ const Addblog = () => {
       title: blogName || "",
       description: blogDesc || "",
       category: blogCategory || "",
-      images: "",
+      images: images || [],
     },
     validationSchema: schema,
     onSubmit: (values) => {
@@ -172,12 +172,17 @@ const Addblog = () => {
             </Dropzone>
           </div>
           <div className="showimages d-flex flex-wrap mt-3 gap-3">
-            {imgState?.map((i, j) => {
+            {images?.map((i, j) => {
               return (
                 <div className=" position-relative" key={j}>
                   <button
                     type="button"
-                    onClick={() => dispatch(delImg(i.public_id))}
+                    onClick={() => {
+                      setImages(
+                        images.filter((item) => item.public_id !== i.public_id)
+                      );
+                      dispatch(delImg(i.public_id));
+                    }}
                     className="btn-close position-absolute"
                     style={{ top: "10px", right: "10px" }}
                   ></button>
