@@ -91,11 +91,11 @@ const Addblog = () => {
     validationSchema: schema,
     onSubmit: (values) => {
       if (getBlogId !== undefined) {
-        const data = { id: getBlogId, blogData: values };
+        const data = { id: getBlogId, blogData: { ...values, images: images } };
         dispatch(updateABlog(data));
         dispatch(resetState());
       } else {
-        dispatch(createBlogs(values));
+        dispatch(createBlogs({ ...values, images: images }));
         formik.resetForm();
         setTimeout(() => {
           dispatch(resetState());
