@@ -35,9 +35,11 @@ const columns = [
 
 const Orders = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getOrders());
   }, []);
+
   const orderState = useSelector((state) => state.auth.orders);
 
   const data1 = [];
@@ -46,9 +48,7 @@ const Orders = () => {
       key: i + 1,
       name: orderState[i].orderby.firstname,
       product: (
-        <Link to={`/admin/order/${orderState[i].orderby._id}`}>
-          View Orders
-        </Link>
+        <Link to={`/admin/order/${orderState[i]._id}`}>View Orders</Link>
       ),
       amount: orderState[i].paymentIntent.amount,
       date: new Date(orderState[i].createdAt).toLocaleString(),
