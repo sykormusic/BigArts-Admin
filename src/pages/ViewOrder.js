@@ -30,10 +30,6 @@ const columns = [
     title: "Amount",
     dataIndex: "amount",
   },
-  {
-    title: "Date",
-    dataIndex: "date",
-  },
 
   // {
   //   title: "Action",
@@ -46,6 +42,7 @@ const ViewOrder = () => {
   const orderId = location.pathname.split("/")[3];
   const dispatch = useDispatch();
   const [data, setData] = useState({});
+  console.log("🚀 ~ file: ViewOrder.js:49 ~ ViewOrder ~ data:", data);
 
   useEffect(() => {
     dispatch(getOrderById(orderId)).then((res) => {
@@ -63,7 +60,6 @@ const ViewOrder = () => {
       brand: products[i].product.brand,
       count: products[i].count,
       amount: products[i].product.price,
-      date: products[i].product.createdAt,
       action: (
         <>
           {/* <Link to="/" className=" fs-3 text-danger">
@@ -76,10 +72,42 @@ const ViewOrder = () => {
       ),
     });
   }
+
+  const orderAddress = [
+    data.paymentAddress?.address,
+    data.paymentAddress?.ward,
+    data.paymentAddress?.district,
+    data.paymentAddress?.state,
+  ]
+    .filter(Boolean)
+    .join(", ");
+
+  const orderByInfo = data.paymentInfo
+    ? [
+        `${data.paymentInfo?.firstName} ${data.paymentInfo?.lastName}`,
+        data.paymentInfo?.mobile,
+      ]
+        .filter(Boolean)
+        .join(", ")
+    : null;
+
   return (
     <div>
       <h3 className="mb-4 title">View Order</h3>
       <div>
+        <p>
+          Date ordered: <b>{data?.createdAt}</b>
+        </p>
+        <p>
+          Status: <b>{data?.orderStatus}</b>
+        </p>
+        <p>
+          Address: <b>{orderAddress}</b>
+        </p>
+        <p>
+          Order By: <b>{orderByInfo}</b>
+        </p>
+
         <Table columns={columns} dataSource={data1} />
       </div>
     </div>
