@@ -1,36 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { BsArrowDownRight, BsArrowUpRight } from "react-icons/bs";
 import { Column } from "@ant-design/plots";
-import { Table } from "antd";
+import React, { useEffect, useState } from "react";
+import { BsArrowDownRight } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { BiEdit } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
-import { Link, useFetcher } from "react-router-dom";
-import {
-  getMonthlyData,
-  getOrders,
-  getYearlyData,
-  getyearlyData,
-} from "../features/auth/authSlice";
-
-const columns = [
-  {
-    title: "SNo",
-    dataIndex: "key",
-  },
-  {
-    title: "Name",
-    dataIndex: "name",
-  },
-  {
-    title: "Product",
-    dataIndex: "product",
-  },
-  {
-    title: "Status",
-    dataIndex: "staus",
-  },
-];
+import { getMonthlyData, getYearlyData } from "../features/auth/authSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
