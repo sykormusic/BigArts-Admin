@@ -47,9 +47,7 @@ const Orders = () => {
     data1.push({
       key: i + 1,
       name: orderState[i].orderby.firstname,
-      product: (
-        <Link to={`/admin/order/${orderState[i]._id}`}>View Orders</Link>
-      ),
+      product: <Link to={`/admin/order/${orderState[i]._id}`}>View Order</Link>,
       amount: orderState[i].paymentIntent.amount,
       date: new Date(orderState[i].createdAt).toLocaleString(),
       action: (
