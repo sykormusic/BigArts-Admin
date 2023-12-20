@@ -27,10 +27,10 @@ const columns = [
     dataIndex: "date",
   },
 
-  {
-    title: "Action",
-    dataIndex: "action",
-  },
+  // {
+  //   title: "Action",
+  //   dataIndex: "action",
+  // },
 ];
 
 const Orders = () => {
