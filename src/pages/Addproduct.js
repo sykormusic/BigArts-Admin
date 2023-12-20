@@ -5,9 +5,8 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getBrands } from "../features/brand/brandSlice";
 import { toast } from "react-toastify";
-import { getColors } from "../features/color/colorSlice";
+import { getBrands } from "../features/brand/brandSlice";
 import { getCategories } from "../features/pcategory/pcategorySlice";
 import {
   createProducts,
@@ -30,7 +29,6 @@ const Addproduct = () => {
 
   const brandState = useSelector((state) => state.brand.brands);
   const catState = useSelector((state) => state.pCategory.pCategories);
-  const colorState = useSelector((state) => state.color.colors);
   const imgState = useSelector((state) => state.upload.images);
 
   const [images, setImages] = useState([]);
@@ -48,7 +46,6 @@ const Addproduct = () => {
   useEffect(() => {
     dispatch(getBrands());
     dispatch(getCategories());
-    dispatch(getColors());
   }, []);
 
   useEffect(() => {
@@ -73,7 +70,6 @@ const Addproduct = () => {
             brand: undefined,
             category: undefined,
             tags: undefined,
-            color: undefined,
             quantity: undefined,
             images: undefined,
           }}
@@ -179,27 +175,6 @@ const Addproduct = () => {
               <Select.Option value="featured">Featured</Select.Option>
               <Select.Option value="popular">Popular</Select.Option>
               <Select.Option value="special">Special</Select.Option>
-            </Select>
-          </Form.Item>
-
-          <Form.Item
-            name="color"
-            rules={[{ required: true, message: "Required" }]}
-          >
-            <Select
-              size="large"
-              mode="multiple"
-              className="form-control py-3 mb-3"
-              id=""
-              placeholder="Select Color"
-            >
-              {colorState.map((i, j) => {
-                return (
-                  <Select.Option key={j} value={i._id}>
-                    {i.title}
-                  </Select.Option>
-                );
-              })}
             </Select>
           </Form.Item>
 
