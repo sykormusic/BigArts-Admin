@@ -2,16 +2,24 @@ import { Column } from "@ant-design/plots";
 import React, { useEffect, useState } from "react";
 import { BsArrowDownRight } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { getMonthlyData, getYearlyData } from "../features/auth/authSlice";
+import { renderMoney } from "../utils/function";
+import {
+  getMonthlyData,
+  getTotalOrderData,
+  getYearlyData,
+} from "../features/auth/authSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const monthlyDataState = useSelector((state) => state.auth.monthlyData);
+  const { monthlyData: monthlyDataState, totalOrderData = {} } = useSelector(
+    (state) => state.auth
+  );
   const [dataMonthly, setDataMonthly] = useState([]);
   const [dataMonthlySales, setMonthlySales] = useState([]);
   useEffect(() => {
     dispatch(getMonthlyData());
     dispatch(getYearlyData());
+    dispatch(getTotalOrderData());
   }, []);
 
   console.log(monthlyDataState);
@@ -116,28 +124,18 @@ const Dashboard = () => {
     <div>
       <h3 className="mb-4 title">Dashboard</h3>
       <div className="d-flex justify-content-between align-items-center gap-3">
-        <div className="d-flex justify-content-between align-items-end flex-grow-1 bg-white p-3 roudned-3">
+        <div className="d-flex justify-content-between gap-3 align-items-end flex-grow-1 bg-white p-3 roudned-3">
           <div>
-            <p className="desc">Total</p>
-            <h4 className="mb-0 sub-title">${}</h4>
-          </div>
-          <div className="d-flex flex-column align-items-end">
-            <h6>
-              <BsArrowDownRight /> 32%
-            </h6>
-            <p className="mb-0  desc">Compared To November 2023</p>
+            <p className="desc">Sold</p>
+            <h4 className="mb-0 sub-title">{totalOrderData.count}</h4>
           </div>
         </div>
-        <div className="d-flex justify-content-between align-items-end flex-grow-1 bg-white p-3 roudned-3">
+        <div className="d-flex justify-content-between gap-3 align-items-end flex-grow-1 bg-white p-3 roudned-3">
           <div>
             <p className="desc">Total</p>
-            <h4 className="mb-0 sub-title">$1100</h4>
-          </div>
-          <div className="d-flex flex-column align-items-end">
-            <h6 className="red">
-              <BsArrowDownRight /> 32%
-            </h6>
-            <p className="mb-0  desc">Compared To November 2023</p>
+            <h4 className="mb-0 sub-title">
+              {renderMoney(totalOrderData.total)}
+            </h4>
           </div>
         </div>
       </div>

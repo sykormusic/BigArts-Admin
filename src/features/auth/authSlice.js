@@ -8,6 +8,7 @@ const initialState = {
   user: getUserfromLocalStorage,
   orders: [],
   orderbyuser: [],
+  totalOrderData: {},
   isError: false,
   isLoading: false,
   isSuccess: false,
@@ -44,6 +45,18 @@ export const getYearlyData = createAsyncThunk(
     }
   }
 );
+
+export const getTotalOrderData = createAsyncThunk(
+  "orders/totaldata",
+  async (userData, thunkAPI) => {
+    try {
+      return await authService.getTotalOrders();
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const getOrders = createAsyncThunk(
   "order/get-orders",
   async (thunkAPI) => {
@@ -70,6 +83,17 @@ export const getOrderById = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       return await authService.getOrderById(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const updateOrderStatus = createAsyncThunk(
+  "order/update-order-status",
+  async (data, thunkAPI) => {
+    try {
+      return await authService.updateOrderStatus(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -161,6 +185,9 @@ export const authSlice = createSlice({
         state.isSuccess = false;
         state.message = action.error;
         state.isLoading = false;
+      })
+      .addCase(getTotalOrderData.fulfilled, (state, action) => {
+        state.totalOrderData = action.payload;
       });
   },
 });

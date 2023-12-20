@@ -47,13 +47,30 @@ const getYearlyStats = async () => {
   return response.data;
 };
 
+const updateOrderStatus = async (data) => {
+  const response = await axios.put(
+    `${base_url}user/order/update-order/${data.id}`,
+    data,
+    config
+  );
+
+  return response.data;
+};
+
+const getTotalOrders = async () => {
+  const response = await axios.get(`${base_url}user/get-total-orders`, config);
+  return response.data;
+};
+
 const authService = {
   login,
   getOrders,
   getOrder,
   getOrderById,
+  updateOrderStatus,
   getMonthlyOrders,
   getYearlyStats,
+  getTotalOrders,
 };
 
 export default authService;
